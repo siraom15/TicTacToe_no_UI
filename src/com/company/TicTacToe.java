@@ -17,7 +17,9 @@ public class TicTacToe {
         turn = player1;
     }
 
-    public void showTable() {
+    private void showTable() {
+//        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        System.out.println("Turn : " + turn.getName());
         System.out.println("**********************");
         for (int i = 0; i < table.length; i++) {
             for (int j = 0; j < table.length; j++) {
@@ -36,39 +38,40 @@ public class TicTacToe {
         System.out.println("**********************");
     }
 
-    public boolean isChecked(int row, int col) {
+    private boolean isChecked(int row, int col) {
         return table[row][col] == 0;
     }
 
-    public void check(Player p) {
+    private void check(Player p) {
         Scanner sc = new Scanner(System.in);
         int playerNo = p.getPlayerNo();
         int row, col;
-        try {
+
             while (true) {
-                row = sc.nextInt();
-                col = sc.nextInt();
-                boolean condition = (row <= 2 && col <= 2 && row >= 0 && col >= 0);
-                if (condition) {
-                    if (isChecked(row, col)) {
-                        table[row][col] = playerNo;
-                        break;
+                try {
+                    System.out.print("Input Position :");
+                    row = sc.nextInt();
+                    col = sc.nextInt();
+                    boolean condition = (row <= 2 && col <= 2 && row >= 0 && col >= 0);
+                    if (condition) {
+                        if (isChecked(row, col)) {
+                            table[row][col] = playerNo;
+                            break;
+                        } else {
+                            throw new Exception("This position already checked");
+                        }
                     } else {
-                        throw new Exception("This position already checked");
+                        throw new Exception("Input Value between 0-2 ");
                     }
-                } else {
-                    throw new Exception("Input Value between 0-2 ");
+                } catch (InputMismatchException e) {
+                    System.out.println("Please Input Number");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
             }
-
-        } catch (InputMismatchException e) {
-            System.out.println("Please Input Number");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
     }
 
-    public boolean canPlay() {
+    private boolean canPlay() {
         int sum = 0;
         for (int i = 0; i < table.length; i++) {
             for (int j = 0; j < table.length; j++) {
@@ -77,13 +80,10 @@ public class TicTacToe {
                 }
             }
         }
-        if (sum < 9) {
-            return true;
-        }
-        return false;
+        return sum < 9;
     }
 
-    public void changeTurn() {
+    private void changeTurn() {
         turn = switch (turn.getPlayerNo()) {
             case 1 -> player2;
             case 2 -> player1;
@@ -91,7 +91,7 @@ public class TicTacToe {
         };
     }
 
-    public boolean checkWinner() {
+    private boolean checkWinner() {
         boolean checkWinner = false;
         for (int i = 0; i < table.length; i++) {
             if (table[i][0] == table[i][1] && table[i][1] == table[i][2] && table[i][0] != 0) {

@@ -17,8 +17,8 @@ public class Player {
 
     public void setName() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Input player "+playerNo+" name :");
-        name = sc.nextLine();
+        System.out.print("Input player "+playerNo+" name :");
+        name = sc.next();
         this.name = name;
     }
 
